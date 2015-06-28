@@ -23,23 +23,13 @@ MAIN_OBJ = $(patsubst %.cpp, %.o, $(MAIN_SRC))
 
 INCS = -I../include \
        -I$(BOOST_INSTALL_ROOT)/include \
-       -I$(HTTP_SERVER_BASE)/include \
-       -I${GLFW_BASE}/include \
-       -I${GLEW_BASE}/include \
        -I${BOX2D_BASE}/include \
-       -I${SDL_BASE}/include \
        -I${SFML_BASE}/include \
-
+## -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
 LIBS = \
+	-L${BOOST_INSTALL_ROOT}/lib -lboost_system \
         -L${BOOST_INSTALL_ROOT}/lib -lboost_thread \
-        -L${BOOST_INSTALL_ROOT}/lib -lboost_system \
-	-L$(HTTP_SERVER_BASE)/lib -lHttpServer \
-	${GLFW_BASE}/lib/libglfw3.a \
-	${GLEW_BASE}/lib/libGLEW.a \
-	-framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo \
 	${BOX2D_BASE}/lib/libBox2D.a \
-	${SDL_BASE}/lib/libSDL2main.a \
-	${SDL_BASE}/lib/libSDL2.a \
         -L${SFML_BASE}/lib -lsfml-system -lsfml-window -lsfml-audio -lsfml-graphics -lsfml-network \
 	-lpthread
 	

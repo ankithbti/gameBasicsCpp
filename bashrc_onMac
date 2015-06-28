@@ -1,0 +1,36 @@
+#########
+###Alias
+#########
+alias findIPs='arp -a'
+alias gdb='lldb'
+alias ldd='otool -L'
+alias startMysql='sudo /usr/local/mysql/support-files/mysql.server start'
+alias stopMysql='sudo /usr/local/mysql/support-files/mysql.server stop'
+#########
+###Env Variables
+#########
+export BOX2D_INSTALL_ROOT=/Users/ankithbti/Development/box2d_install
+launchctl setenv BOX2D_INSTALL_ROOT /Users/ankithbti/Development/box2d_install
+export BOOST_INSTALL_ROOT=/Users/ankithbti/Development/Cpp/boost
+launchctl setenv BOOST_INSTALL_ROOT /Users/ankithbti/Development/Cpp/boost
+
+export GTEST_ROOT=/Users/ankithbti/Development/Cpp/gmock-1.7.0/gtest
+launchctl setenv GTEST_ROOT /Users/ankithbti/Development/Cpp/gmock-1.7.0/gtest
+
+export GMOCK_ROOT=/Users/ankithbti/Development/Cpp/gmock-1.7.0
+launchctl setenv GMOCK_ROOT /Users/ankithbti/Development/Cpp/gmock-1.7.0
+
+export DYLD_LIBRARY_PATH=/Users/ankithbti/Development/Cpp/httpServer/lib:/Users/ankithbti/Development/Cpp/quickfix/lib::/Users/ankithbti/Development/Cpp/boost/lib:/Users/ankithbti/Development/Cpp/gmock-1.7.0/make:/Users/ankithbti/Development/Cpp/gmock-1.7.0/gtest/make:/Users/ankithbti/Development/Cpp/mysqlapi/lib:/usr/local/mysql/lib:/Users/ankithbti/Development/Cpp/quickfix/lib:${DYLD_LIBRARY_PATH}
+launchctl setenv DYLD_LIBRARY_PATH /Users/ankithbti/Development/Cpp/httpServer/lib:/Users/ankithbti/Development/Cpp/quickfix/lib::/Users/ankithbti/Development/Cpp/boost/lib:/Users/ankithbti/Development/Cpp/gmock-1.7.0/make:/Users/ankithbti/Development/Cpp/gmock-1.7.0/gtest/make:/Users/ankithbti/Development/Cpp/mysqlapi/lib:/usr/local/mysql/lib:/Users/ankithbti/Development/Cpp/quickfix/lib:${DYLD_LIBRARY_PATH}
+
+export PATH=/Users/ankithbti/Development/cmake-3.3.0-rc2-Darwin-x86_64/CMake.app/Contents/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:${PATH}
+launchctl setenv PATH /Users/ankithbti/Development/cmake-3.3.0-rc2-Darwin-x86_64/CMake.app/Contents/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:${PATH}
+##########
+### Prompt
+##########
+export PS1='\u@\w>'
+
+##########
+### Welcome
+##########
+echo "Welcome Ankit - A Developer always develops "

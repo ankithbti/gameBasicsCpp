@@ -5,6 +5,7 @@
 #include <SFML/System.hpp>
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
+#include <Game.hpp>
 
 bool isShutDown = false;
 // Set up the World
@@ -109,6 +110,12 @@ void renderingThread(sf::RenderWindow* window)
 
 int main()
 {
+    Game g;
+    g.start();
+    std::cout << " Starting Game... " << std::endl;
+    
+    return 0;
+    
     sf::RenderWindow window(sf::VideoMode(800, 600), "Test");
     window.setFramerateLimit(60);
     window.setPosition(sf::Vector2i(100.0, 100.0));

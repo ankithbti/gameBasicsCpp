@@ -15,7 +15,12 @@ ARCH = $(shell uname -m)	# ARCH becomes the output from the uname -m command.
 CXX=/usr/bin/g++
 CXXFLAGS=-g -O2 -Wall $(INCS)
 
-SRCS = Game.cpp SplashScreen.cpp MainMenu.cpp
+SRCS = Game.cpp SplashScreen.cpp MainMenu.cpp PlayerPaddle.cpp VisibleGameObject.cpp \
+	GameObjectManager.cpp \
+	Ball.cpp \
+	Ground.cpp \
+	Box.cpp \
+	
 MAIN_SRC = Main.cpp
 
 OBJS = $(patsubst %.cpp, %.o, $(SRCS))

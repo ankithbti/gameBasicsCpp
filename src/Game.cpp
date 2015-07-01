@@ -9,6 +9,7 @@
 
 #include "Ground.hpp"
 #include "Box.hpp"
+#include "ScoreText.hpp"
 
 sf::RenderWindow Game::_mainWindow;
 Game::GameState Game::_state = Uninitialised;
@@ -111,10 +112,12 @@ void Game::start()
     Ball *b = new Ball();
     Ground * g = new Ground();
     Box *box = new Box();
+    ScoreText * st = new ScoreText(box);
     _gameObjectManager.Add("Paddle1", player1);
     _gameObjectManager.Add("Ball", b);
     _gameObjectManager.Add("Ground", g);
     _gameObjectManager.Add("Box", box);
+    _gameObjectManager.Add("ScoreText", st);
     _state = Game::ShowingSplash;
 
     boost::thread t(renderThread, &_mainWindow, &_gameObjectManager);
@@ -181,8 +184,7 @@ void Game::renderThread(sf::RenderWindow*window, GameObjectManager* gom)
             break;
         }
         default:
-            // Nothing to do
-            std::cout << " Default.. " << std::endl;
+            sf::sleep(sf::seconds(1.0f/60.0f));
             break;
         }
 

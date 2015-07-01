@@ -19,6 +19,14 @@ public:
     Ball();
     virtual ~Ball();
     
+
+    virtual void Update(const sf::Event& e, float elapsedTime);
+    
+
+    virtual void Draw(sf::RenderWindow& window);
+
+
+    
 };
 
 #endif	/* BALL_HPP */

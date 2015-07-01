@@ -3,8 +3,9 @@
 #include "GameObjectManager.hpp"
 #include "Game.hpp"
 #include <boost/thread.hpp>
+#include <boost/algorithm/string.hpp>
 
-Box::Box()
+Box::Box() : _boxCount(0)
 {
     Load("/Users/ankithbti/Development/Gamebasics/bin/ground1.jpg", sf::IntRect(0, 0, 20, 20));
     GetSprite().setPosition(100, 100);
@@ -17,13 +18,14 @@ Box::~Box()
 
 void Box::Draw(sf::RenderWindow& window)
 {
+
     //VisibleGameObject::Draw(window);
     if (_isLoaded)
     {
 
         for (b2Body* BodyIterator = Game::getWorld()->GetBodyList(); BodyIterator != 0; BodyIterator = BodyIterator->GetNext())
         {
-            if (BodyIterator->GetType() == b2_dynamicBody)
+            if (BodyIterator->GetType() == b2_dynamicBody && boost::iequals((const char*)BodyIterator->GetUserData(), "GreenBox"))
             {
                 GetSprite().setOrigin(10.f, 10.f);
                 GetSprite().setPosition(Game::WORLD_SCLAE * BodyIterator->GetPosition().x, Game::WORLD_SCLAE * BodyIterator->GetPosition().y);
@@ -58,7 +60,7 @@ void Box::Update(const sf::Event& e, float elapsedTime)
             b2BodyDef BodyDef;
             BodyDef.position = b2Vec2(x / Game::WORLD_SCLAE, y / Game::WORLD_SCLAE);
             BodyDef.type = b2_dynamicBody;
-            
+            BodyDef.userData = (void*)"GreenBox";
             b2Body* Body;
             {
                 boost::lock_guard<sf::Mutex> lock(Game::getMutex());
@@ -72,6 +74,7 @@ void Box::Update(const sf::Event& e, float elapsedTime)
             FixtureDef.shape = &Shape;
             FixtureDef.restitution = 0.4f;
             Body->CreateFixture(&FixtureDef);
+            ++_boxCount;
         }
     }
 }

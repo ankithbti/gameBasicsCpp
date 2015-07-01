@@ -24,7 +24,11 @@ class Box : public VisibleGameObject{
 
     virtual void Update(const sf::Event& e, float elapsedTime);
 
-
+    const int& getBoxCount() const {
+        return _boxCount;
+    }
+    private:
+        int _boxCount;
 };
 
 #endif	/* BOX_HPP */

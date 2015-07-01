@@ -19,6 +19,7 @@ Ground::Ground()
     b2FixtureDef FixtureDef;
     FixtureDef.density = 0.f; // Sets the density of the body
     FixtureDef.shape = &Shape; // Sets the shape
+    FixtureDef.friction = 0.5f;
     Body->CreateFixture(&FixtureDef); // Apply the fixture definition
 
     for (b2Body* BodyIterator = Game::getWorld()->GetBodyList(); BodyIterator != 0; BodyIterator = BodyIterator->GetNext())

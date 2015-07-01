@@ -20,6 +20,7 @@ SRCS = Game.cpp SplashScreen.cpp MainMenu.cpp PlayerPaddle.cpp VisibleGameObject
 	Ball.cpp \
 	Ground.cpp \
 	Box.cpp \
+	ScoreText.cpp \
 	
 MAIN_SRC = Main.cpp
 

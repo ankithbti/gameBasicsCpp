@@ -21,6 +21,7 @@ SRCS = Game.cpp SplashScreen.cpp MainMenu.cpp PlayerPaddle.cpp VisibleGameObject
 	Ground.cpp \
 	Box.cpp \
 	ScoreText.cpp \
+	MyDebugDraw.cpp \
 	
 MAIN_SRC = Main.cpp
 
@@ -37,6 +38,7 @@ LIBS = \
         -L${BOOST_INSTALL_ROOT}/lib -lboost_thread \
 	${BOX2D_BASE}/lib/libBox2D.a \
         -L${SFML_BASE}/lib -lsfml-system -lsfml-window -lsfml-audio -lsfml-graphics -lsfml-network \
+	-framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo \
 	-lpthread
 	
 $(BIN): $(OBJS) $(MAIN_OBJ)

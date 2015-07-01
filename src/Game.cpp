@@ -10,6 +10,7 @@
 #include "Ground.hpp"
 #include "Box.hpp"
 #include "ScoreText.hpp"
+#include "MyDebugDraw.hpp"
 
 sf::RenderWindow Game::_mainWindow;
 Game::GameState Game::_state = Uninitialised;
@@ -102,7 +103,10 @@ void Game::start()
     //_world->SetAllowSleeping(true);
     //_world->SetContinuousPhysics(true);
     //_world->SetAutoClearForces(false);
-
+    MyDebugDraw myDebugDraw;
+    _world->SetDebugDraw(&myDebugDraw);
+    myDebugDraw.SetFlags(b2Draw::e_shapeBit);
+    
     _mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32), "Pang!");
     _mainWindow.setFramerateLimit(60);
 
@@ -178,6 +182,7 @@ void Game::renderThread(sf::RenderWindow*window, GameObjectManager* gom)
             gom->DrawAll(*window);
             {
                 boost::lock_guard<sf::Mutex> lock(_mutex);
+                getWorld()->DrawDebugData();
                 getWorld()->Step(WORLD_STEP_TIMESTAMP, 8, 3);
             }
             window->display();

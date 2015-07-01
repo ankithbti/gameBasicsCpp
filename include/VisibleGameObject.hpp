@@ -33,7 +33,7 @@ public:
     virtual void Update(const sf::Event& e, float elapsedTime);
     virtual sf::Vector2f GetPosition() const;
     virtual bool IsLoaded() const;
-
+    virtual std::string getId(){ return "UNKNOWN"; }
 };
 
 #endif	/* VISIBLEGAMEOBJECT_HPP */

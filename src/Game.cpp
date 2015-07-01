@@ -11,6 +11,7 @@
 #include "Box.hpp"
 #include "ScoreText.hpp"
 #include "MyDebugDraw.hpp"
+#include "MyContactListener.hpp"
 
 sf::RenderWindow Game::_mainWindow;
 Game::GameState Game::_state = Uninitialised;
@@ -106,6 +107,9 @@ void Game::start()
     MyDebugDraw myDebugDraw;
     _world->SetDebugDraw(&myDebugDraw);
     myDebugDraw.SetFlags(b2Draw::e_shapeBit);
+    
+    MyContactListener myContactListener;
+    _world->SetContactListener(&myContactListener);
     
     _mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32), "Pang!");
     _mainWindow.setFramerateLimit(60);

@@ -40,9 +40,14 @@ void MyDebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, co
             b2Vec2 vertex = vertices[i];
             sf::Vector2f point(vertex.x * Game::WORLD_SCLAE, vertex.y * Game::WORLD_SCLAE);
             polygon.setPoint(i, point);
-            polygon.setFillColor(sf::Color(color.r, color.g, color.b));
-            polygon.setOutlineColor(sf::Color(color.r, color.g, color.b, 50));
+            polygon.setFillColor(sf::Color(color.r, color.g, color.b, 50));
+            polygon.setOutlineColor(sf::Color(0, 255, 0));
         }
+        glColor3f(1, 1, 1); //white
+        glPointSize(4);
+        glBegin(GL_POINTS);
+        glVertex2f( polygon.getOrigin().x , polygon.getOrigin().y );
+        glEnd();
         polygon.setOutlineThickness(5.0f);
         Game::GetWindow().draw(polygon);
     }

@@ -25,7 +25,7 @@ void Box::Draw(sf::RenderWindow& window)
 
         for (b2Body* BodyIterator = Game::getWorld()->GetBodyList(); BodyIterator != 0; BodyIterator = BodyIterator->GetNext())
         {
-            if (BodyIterator->GetType() == b2_dynamicBody && boost::iequals((const char*)BodyIterator->GetUserData(), "GreenBox"))
+            if (BodyIterator->GetType() == b2_dynamicBody && ((VisibleGameObject*)BodyIterator->GetUserData())->getId() == getId() )
             {
                 GetSprite().setOrigin(10.f, 10.f);
                 GetSprite().setPosition(Game::WORLD_SCLAE * BodyIterator->GetPosition().x, Game::WORLD_SCLAE * BodyIterator->GetPosition().y);
@@ -60,7 +60,7 @@ void Box::Update(const sf::Event& e, float elapsedTime)
             b2BodyDef BodyDef;
             BodyDef.position = b2Vec2(x / Game::WORLD_SCLAE, y / Game::WORLD_SCLAE);
             BodyDef.type = b2_dynamicBody;
-            BodyDef.userData = (void*)"GreenBox";
+            BodyDef.userData = (void*)this;
             b2Body* Body;
             {
                 boost::lock_guard<sf::Mutex> lock(Game::getMutex());

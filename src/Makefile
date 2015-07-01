@@ -22,6 +22,7 @@ SRCS = Game.cpp SplashScreen.cpp MainMenu.cpp PlayerPaddle.cpp VisibleGameObject
 	Box.cpp \
 	ScoreText.cpp \
 	MyDebugDraw.cpp \
+	MyContactListener.cpp \
 	
 MAIN_SRC = Main.cpp
 

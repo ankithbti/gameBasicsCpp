@@ -15,10 +15,10 @@
 
 #include "VisibleGameObject.hpp"
 
-class Box : public VisibleGameObject{
-    public:
-        Box();
-        ~Box();
+class Box : public VisibleGameObject {
+public:
+    Box();
+    ~Box();
 
     virtual void Draw(sf::RenderWindow& window);
 
@@ -27,8 +27,12 @@ class Box : public VisibleGameObject{
     const int& getBoxCount() const {
         return _boxCount;
     }
-    private:
-        int _boxCount;
+
+    std::string getId() {
+        return "1";
+    }
+private:
+    int _boxCount;
 };
 
 #endif	/* BOX_HPP */

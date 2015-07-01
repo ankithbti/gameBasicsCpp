@@ -26,7 +26,9 @@ public:
     virtual void Draw(sf::RenderWindow& window);
 
 
-    
+    std::string getId() {
+        return "2";
+    }
 };
 
 #endif	/* BALL_HPP */

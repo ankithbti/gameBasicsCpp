@@ -6,6 +6,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <Ball.hpp>
 #include <boost/thread.hpp>
+#include <SFML/Graphics/Color.hpp>
 
 #include "Ground.hpp"
 #include "Box.hpp"
@@ -21,6 +22,13 @@ sf::Clock Game::_deltaClock;
 sf::Time Game::_timeSinceLastUpdate = sf::Time::Zero;
 sf::Time Game::_timePerFrame = sf::seconds(1.0f / 60.0f);
 sf::Mutex Game::_mutex;
+sf::Sprite Game::_background;
+float Game::_cameraX = 0.0f;
+float Game::_cameraY = 0.0f;
+sf::View Game::_cameraView;
+sf::RectangleShape Game::_box;
+Enemy* Game::_enemy;
+bool Game::_toggle = true;
 
 void Game::GameLoop()
 {
@@ -50,11 +58,14 @@ void Game::GameLoop()
         //        {
         _timeSinceLastUpdate -= _timePerFrame;
 
+        
+        //_enemy->_sprite.move(1.0f, 0.0f);
 
         sf::Event currentEvent;
 
         while (_mainWindow.pollEvent(currentEvent))
         {
+            
             if (currentEvent.type == sf::Event::Closed)
             {
                 _state = Game::Exiting;
@@ -64,6 +75,16 @@ void Game::GameLoop()
                 if (currentEvent.key.code == sf::Keyboard::Escape)
                 {
                     showMenu();
+                }
+                if (currentEvent.key.code == sf::Keyboard::D)
+                {
+                    _box.setPosition(_box.getPosition().x + 10, _box.getPosition().y);
+                    
+                    
+                    //if(_cameraX >= 0)
+                    //  _box.setPosition(_box.getPosition().x - 10, _box.getPosition().y);
+
+
                 }
             }
             _gameObjectManager.UpdateAll(currentEvent);
@@ -107,12 +128,40 @@ void Game::start()
     MyDebugDraw myDebugDraw;
     _world->SetDebugDraw(&myDebugDraw);
     myDebugDraw.SetFlags(b2Draw::e_shapeBit);
-    
+
     MyContactListener myContactListener;
     _world->SetContactListener(&myContactListener);
-    
+
     _mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32), "Pang!");
     _mainWindow.setFramerateLimit(60);
+
+    _enemy = new Enemy("/Users/ankithbti/Development/gameBasics/bin/enemy1.png");
+    _enemy->_sprite.setColor(sf::Color::Yellow);
+    _enemy->getSprite().setPosition(300,400);
+
+    sf::Image bg;
+    if (!bg.loadFromFile("/Users/ankithbti/Development/gameBasics/bin/gamebg1.png"))
+    {
+        std::cout << " Failed to load BG " << std::endl;
+    }
+    sf::Texture bgTexture;
+    bgTexture.loadFromImage(bg);
+
+
+
+    _box.setFillColor(sf::Color::Black);
+    //_box.setOrigin(0,0);
+    _box.setPosition(50.0f, 10.0f);
+    _box.setSize(sf::Vector2f(40, 40));
+
+    _background.setTexture(bgTexture);
+    //_cameraX = _box.getPosition().x - SCREEN_WIDTH / 2.0f;
+    //_cameraY = SCREEN_HEIGHT / 2.0f;
+
+
+    //_cameraView.setCenter(_cameraX, _cameraY);
+    _cameraView.reset(sf::FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
+    _cameraView.setViewport(sf::FloatRect(0, 0, 1.0f, 1.0f));
 
 
 
@@ -183,6 +232,35 @@ void Game::renderThread(sf::RenderWindow*window, GameObjectManager* gom)
         case Game::Playing:
         {
             window->clear(sf::Color(255, 0, 0));
+            
+            _cameraX = _box.getPosition().x + 10 - SCREEN_WIDTH / 2 ;
+            _cameraY = _box.getPosition().y - 10 - SCREEN_HEIGHT / 2 ;
+
+            if (_cameraX < 0)
+                _cameraX = 0;
+            if (_cameraY < 0)
+                _cameraY = 0;
+            
+            _cameraView.reset(sf::FloatRect(_cameraX, _cameraY, SCREEN_WIDTH, SCREEN_HEIGHT));
+            window->setView(_cameraView);
+            GetWindow().draw(_background);
+            //std::cout << " Box: " << _box.getPosition().x << "," << _box.getPosition().y << std::endl;
+            window->setView(window->getDefaultView());
+
+            window->draw(_box);
+            if(_enemy->_sprite.getPosition().x > 400){
+                _toggle = !_toggle;
+            }
+            if(_enemy->_sprite.getPosition().x < 300){
+                _toggle = !_toggle;
+            }
+            if(_toggle){
+                _enemy->_sprite.move(0.5f,0.f);
+            }else{
+                _enemy->_sprite.move(-0.5f,0.f);
+            }
+                        
+            window->draw(_enemy->_sprite);      
             gom->DrawAll(*window);
             {
                 boost::lock_guard<sf::Mutex> lock(_mutex);
@@ -193,7 +271,7 @@ void Game::renderThread(sf::RenderWindow*window, GameObjectManager* gom)
             break;
         }
         default:
-            sf::sleep(sf::seconds(1.0f/60.0f));
+            sf::sleep(sf::seconds(1.0f / 60.0f));
             break;
         }
 

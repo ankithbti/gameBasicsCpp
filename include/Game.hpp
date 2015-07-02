@@ -15,6 +15,7 @@
 #include <PlayerPaddle.hpp>
 #include <GameObjectManager.hpp>
 #include <Box2D/Box2D.h>
+#include <Enemy.hpp>
 
 class Game {
 public:
@@ -40,7 +41,16 @@ private:
     static b2World * _world;
     static bool IsExiting();
     static void GameLoop();
-
+    
+    static sf::RectangleShape _box;
+    static sf::Sprite _background;
+    static float _cameraX;
+    static float _cameraY;
+    static sf::View _cameraView;
+    static Enemy* _enemy;
+    static bool _toggle;
+    
+    
     static void showSplashScreen();
     static void showMenu();
     static sf::Mutex _mutex;

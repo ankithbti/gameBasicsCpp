@@ -16,6 +16,7 @@
 #include <GameObjectManager.hpp>
 #include <Box2D/Box2D.h>
 #include <Enemy.hpp>
+#include <AudioServiceLocator.hpp>
 
 class Game {
 public:

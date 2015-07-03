@@ -12,20 +12,27 @@
 #include <SFML/Graphics.hpp>
 
 class Enemy {
-    
 public:
+    sf::Texture _t;
     sf::Sprite _sprite;
+
+    enum Direction {
+        Down, Left, Right, Up
+    };
     
+     sf::Vector2i _source ;
+    
+
 public:
-    
+
     Enemy(const std::string& imageFile);
     ~Enemy();
-    
+
     sf::Sprite & getSprite() {
         return _sprite;
     }
-    
-    
+
+
 };
 
 

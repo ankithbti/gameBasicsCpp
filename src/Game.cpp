@@ -13,6 +13,7 @@
 #include "ScoreText.hpp"
 #include "MyDebugDraw.hpp"
 #include "MyContactListener.hpp"
+#include <SFMLAudioProvider.hpp>
 
 sf::RenderWindow Game::_mainWindow;
 Game::GameState Game::_state = Uninitialised;
@@ -58,7 +59,8 @@ void Game::GameLoop()
         //        {
         _timeSinceLastUpdate -= _timePerFrame;
 
-        
+
+
         //_enemy->_sprite.move(1.0f, 0.0f);
 
         sf::Event currentEvent;
@@ -66,6 +68,7 @@ void Game::GameLoop()
         while (_mainWindow.pollEvent(currentEvent))
         {
             
+
             if (currentEvent.type == sf::Event::Closed)
             {
                 _state = Game::Exiting;
@@ -79,12 +82,33 @@ void Game::GameLoop()
                 if (currentEvent.key.code == sf::Keyboard::D)
                 {
                     _box.setPosition(_box.getPosition().x + 10, _box.getPosition().y);
-                    
-                    
+                    AudioServiceLocator::GetAudio()->PlaySound("/Users/ankithbti/Development/gameBasics/bin/sound1.wav");
                     //if(_cameraX >= 0)
                     //  _box.setPosition(_box.getPosition().x - 10, _box.getPosition().y);
 
 
+                }
+                if (currentEvent.key.code == sf::Keyboard::R)
+                {
+                    // Then move the enemy Up
+                    _enemy->_source.y = Enemy::Right;
+
+
+                }
+                if (currentEvent.key.code == sf::Keyboard::L)
+                {
+                    // Then move the enemy Up
+                    _enemy->_source.y = Enemy::Left;
+                }
+                if (currentEvent.key.code == sf::Keyboard::U)
+                {
+                    // Then move the enemy Up
+                    _enemy->_source.y = Enemy::Up;
+                }
+                if (currentEvent.key.code == sf::Keyboard::S)
+                {
+                    // Then move the enemy Up
+                    _enemy->_source.y = Enemy::Down;
                 }
             }
             _gameObjectManager.UpdateAll(currentEvent);
@@ -135,9 +159,13 @@ void Game::start()
     _mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32), "Pang!");
     _mainWindow.setFramerateLimit(60);
 
-    _enemy = new Enemy("/Users/ankithbti/Development/gameBasics/bin/enemy1.png");
+
+    _enemy = new Enemy("/Users/ankithbti/Development/gameBasics/bin/playerAnimation.png");
     _enemy->_sprite.setColor(sf::Color::Yellow);
-    _enemy->getSprite().setPosition(300,400);
+    _enemy->getSprite().setPosition(300, 400);
+
+    SFMLAudioProvider sfmlAudioProvider;
+    AudioServiceLocator::RegisterServiceLocator(&sfmlAudioProvider);
 
     sf::Image bg;
     if (!bg.loadFromFile("/Users/ankithbti/Development/gameBasics/bin/gamebg1.png"))
@@ -232,15 +260,15 @@ void Game::renderThread(sf::RenderWindow*window, GameObjectManager* gom)
         case Game::Playing:
         {
             window->clear(sf::Color(255, 0, 0));
-            
-            _cameraX = _box.getPosition().x + 10 - SCREEN_WIDTH / 2 ;
-            _cameraY = _box.getPosition().y - 10 - SCREEN_HEIGHT / 2 ;
+
+            _cameraX = _box.getPosition().x + 10 - SCREEN_WIDTH / 2;
+            _cameraY = _box.getPosition().y - 10 - SCREEN_HEIGHT / 2;
 
             if (_cameraX < 0)
                 _cameraX = 0;
             if (_cameraY < 0)
                 _cameraY = 0;
-            
+
             _cameraView.reset(sf::FloatRect(_cameraX, _cameraY, SCREEN_WIDTH, SCREEN_HEIGHT));
             window->setView(_cameraView);
             GetWindow().draw(_background);
@@ -248,19 +276,33 @@ void Game::renderThread(sf::RenderWindow*window, GameObjectManager* gom)
             window->setView(window->getDefaultView());
 
             window->draw(_box);
-            if(_enemy->_sprite.getPosition().x > 400){
+
+            if (_enemy->_sprite.getPosition().x > 400)
+            {
                 _toggle = !_toggle;
             }
-            if(_enemy->_sprite.getPosition().x < 300){
+            if (_enemy->_sprite.getPosition().x < 300)
+            {
                 _toggle = !_toggle;
             }
-            if(_toggle){
-                _enemy->_sprite.move(0.5f,0.f);
-            }else{
-                _enemy->_sprite.move(-0.5f,0.f);
+            if (_toggle)
+            {
+                _enemy->_sprite.move(0.5f, 0.f);
             }
-                        
-            window->draw(_enemy->_sprite);      
+            else
+            {
+                _enemy->_sprite.move(-0.5f, 0.f);
+            }
+
+            ++_enemy->_source.x;
+            if (_enemy->_source.x * 32 >= _enemy->_sprite.getTexture()->getSize().x)
+            {
+                _enemy->_source.x = 0;
+            }
+
+            _enemy->_sprite.setTextureRect(sf::IntRect(_enemy->_source.x * 32, _enemy->_source.y * 32, 32, 32));
+            _enemy->_sprite.setScale(2.0f, 2.0f);
+            window->draw(_enemy->_sprite);
             gom->DrawAll(*window);
             {
                 boost::lock_guard<sf::Mutex> lock(_mutex);

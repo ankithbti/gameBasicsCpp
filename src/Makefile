@@ -24,6 +24,8 @@ SRCS = Game.cpp SplashScreen.cpp MainMenu.cpp PlayerPaddle.cpp VisibleGameObject
 	MyDebugDraw.cpp \
 	MyContactListener.cpp \
 	Enemy.cpp \
+	SFMLAudioProvider.cpp \
+	AudioServiceLocator.cpp \
 	
 MAIN_SRC = Main.cpp
 

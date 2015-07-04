@@ -32,6 +32,7 @@ public:
         
     }
     
+    virtual void setPosition(float x, float y){ };
     virtual void draw(sf::RenderWindow& window) = 0;
     virtual void update(const sf::Event& event, float elapsedTime) = 0;
     const std::string& getId() const

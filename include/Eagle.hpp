@@ -1,37 +1,41 @@
 /* 
- * File:   Tank.hpp
+ * File:   Eagle.hpp
  * Author: ankithbti
  *
- * Created on 4 July, 2015, 5:31 PM
+ * Created on 5 July, 2015, 12:59 AM
  */
 
-#ifndef TANK_HPP
-#define	TANK_HPP
+#ifndef EAGLE_HPP
+#define	EAGLE_HPP
 
-#include <Constants.hpp>
 #include <GameEntity.hpp>
+#include <Log.hpp>
 
 namespace gamePlay
 {
 
-class Tank : public GameEntity
+class Eagle : public GameEntity
 {
 private:
 
     sf::Texture _imageTexture;
-    sf::Sprite _tankSprite;
+    sf::Sprite _sprite;
+    Log _logger;
 
 public:
 
-    Tank(const std::string& imageFile, const sf::IntRect& rect = sf::IntRect());
+    Eagle(const std::string& imageFile, const sf::IntRect& rect = sf::IntRect());
 
     virtual void draw(sf::RenderWindow& window);
     virtual void update(const sf::Event& event, float elapsedTime);
+
     virtual void setPosition(float x, float y);
 
 };
+
 }
 
 
-#endif	/* TANK_HPP */
+
+#endif	/* EAGLE_HPP */
 

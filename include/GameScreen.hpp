@@ -20,6 +20,7 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include "GameEntityManager.hpp"
+#include "GameMapLoader.hpp"
 
 namespace gamePlay
 {
@@ -47,6 +48,7 @@ private:
     State _currentState;
     Log _logger;
     GameEntityManager _gameEntityManager;
+    GameMapLoader::SmartPtr _mapLoader;
 
 
     void gameLoop();

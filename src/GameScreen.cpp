@@ -21,14 +21,15 @@ _window(sf::VideoMode(GAME_WIDTH, GAME_HEIGHT), title),
 _world(new b2World(b2Vec2(GAME_GRAVITY_X, GAME_GRAVITY_Y))),
 _isRunning(false),
 _currentState(SHOWING_SPLASH_SCREEN),
-_logger("GameScreen")
-
+_logger("GameScreen"),
+_gameEntityManager()
 {
     _window.clear(sf::Color::White);
 
     // Initialise Tank
-    GameEntity::SmartPtr tank(new Tank("/Users/ankithbti/Development/gameBasics/bin/tankGameSprite.png", sf::IntRect(0, 30, 30, 30)));
-    _gameEntityManager.addGameEntity("Tank1", tank);
+    //GameEntity::SmartPtr tank(new Tank("/Users/ankithbti/Development/gameBasics/bin/tankGameSprite.png", sf::IntRect(0, 30, 30, 30)));
+    //_gameEntityManager.addGameEntity("Tank1", tank);
+    _mapLoader = GameMapLoader::SmartPtr(new GameMapLoader(_gameEntityManager, "/Users/ankithbti/Development/gameBasics/resources/scene1.map"));
 }
 
 GameScreen::~GameScreen()
@@ -160,7 +161,7 @@ void GameScreen::render()
             {
             case PLAYING:
             {
-                _window.clear(sf::Color::Green);
+                _window.clear(sf::Color::White);
 
                 // Test Draw String
                 sf::Font font;

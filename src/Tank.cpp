@@ -23,5 +23,10 @@ void Tank::draw(sf::RenderWindow& window)
     window.draw(_tankSprite);
 }
 
+void Tank::setPosition(float x, float y)
+{
+    _tankSprite.setPosition(x,y);
+}
+
 
 }

@@ -32,6 +32,10 @@ SRCS = Log.cpp \
 	GameEntity.cpp \
 	GameEntityManager.cpp \
 	Tank.cpp \
+	GameMapLoader.cpp \
+	GameEntityFactory.cpp \
+	Wall.cpp \
+	Eagle.cpp \
 	
 	
 MAIN_SRC = Main.cpp

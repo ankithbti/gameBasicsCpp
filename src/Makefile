@@ -15,7 +15,7 @@ ARCH = $(shell uname -m)	# ARCH becomes the output from the uname -m command.
 CXX=/usr/bin/g++
 CXXFLAGS=-g -O2 -Wall $(INCS)
 
-SRCS = Game.cpp SplashScreen.cpp MainMenu.cpp PlayerPaddle.cpp VisibleGameObject.cpp \
+SRCS_OLD = Game.cpp SplashScreen.cpp MainMenu.cpp PlayerPaddle.cpp VisibleGameObject.cpp \
 	GameObjectManager.cpp \
 	Ball.cpp \
 	Ground.cpp \
@@ -26,6 +26,10 @@ SRCS = Game.cpp SplashScreen.cpp MainMenu.cpp PlayerPaddle.cpp VisibleGameObject
 	Enemy.cpp \
 	SFMLAudioProvider.cpp \
 	AudioServiceLocator.cpp \
+	
+SRCS = Log.cpp \
+	GameScreen.cpp \
+	
 	
 MAIN_SRC = Main.cpp
 
@@ -40,6 +44,7 @@ INCS = -I../include \
 LIBS = \
 	-L${BOOST_INSTALL_ROOT}/lib -lboost_system \
         -L${BOOST_INSTALL_ROOT}/lib -lboost_thread \
+	-L${BOOST_INSTALL_ROOT}/lib -lboost_date_time \
 	${BOX2D_BASE}/lib/libBox2D.a \
         -L${SFML_BASE}/lib -lsfml-system -lsfml-window -lsfml-audio -lsfml-graphics -lsfml-network \
 	-framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo \

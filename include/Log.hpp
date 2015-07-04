@@ -11,27 +11,31 @@
 #include <iostream>
 
 
-namespace gamePlay {
-    
-    class Log {
-    public:
-        enum Level {
-            ERROR,
-            WARNING,
-            INFO,
-            DEBUG
-        };
-        
-    private:
-        std::string _name;
-        
-        
-    public:
-        Log(const std::string& name);
-        void logMessage(const std::string& msg, Level l = DEBUG);
-        
+namespace gamePlay
+{
+
+class Log
+{
+public:
+
+    enum Level
+    {
+        ERROR,
+        WARNING,
+        INFO,
+        DEBUG
     };
-    
+
+private:
+    std::string _name;
+
+
+public:
+    Log(const std::string& name);
+    void logMessage(const std::string& msg, Level l = DEBUG);
+
+};
+
 }
 
 

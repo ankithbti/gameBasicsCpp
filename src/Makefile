@@ -29,6 +29,9 @@ SRCS_OLD = Game.cpp SplashScreen.cpp MainMenu.cpp PlayerPaddle.cpp VisibleGameOb
 	
 SRCS = Log.cpp \
 	GameScreen.cpp \
+	GameEntity.cpp \
+	GameEntityManager.cpp \
+	Tank.cpp \
 	
 	
 MAIN_SRC = Main.cpp

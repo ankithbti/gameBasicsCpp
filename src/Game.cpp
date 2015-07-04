@@ -93,7 +93,6 @@ void Game::GameLoop()
                     // Then move the enemy Up
                     _enemy->_source.y = Enemy::Right;
 
-
                 }
                 if (currentEvent.key.code == sf::Keyboard::L)
                 {

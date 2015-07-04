@@ -10,6 +10,8 @@
 #include <SFML/Window/Event.hpp>
 #include <sys/ttycom.h>
 #include <SFML/Window/Keyboard.hpp>
+#include <Tank.hpp>
+#include <SFML/Graphics/Rect.hpp>
 
 namespace gamePlay
 {
@@ -23,6 +25,10 @@ _logger("GameScreen")
 
 {
     _window.clear(sf::Color::White);
+
+    // Initialise Tank
+    GameEntity::SmartPtr tank(new Tank("/Users/ankithbti/Development/gameBasics/bin/tankGameSprite.png", sf::IntRect(0, 30, 30, 30)));
+    _gameEntityManager.addGameEntity("Tank1", tank);
 }
 
 GameScreen::~GameScreen()
@@ -31,6 +37,7 @@ GameScreen::~GameScreen()
     {
         delete _world;
     }
+    _window.close();
 }
 
 void GameScreen::start()
@@ -47,6 +54,7 @@ void GameScreen::start()
     {
         gameLoop();
     }
+    _rendererThread->join();
     _logger.logMessage(" Stopping Game....");
 }
 
@@ -135,6 +143,8 @@ void GameScreen::inputHandling()
                 _currentState = SHOWING_SPLASH_SCREEN;
             }
         }
+        // For All Game entities
+        _gameEntityManager.updateAll(event);
     }
 }
 
@@ -142,32 +152,46 @@ void GameScreen::inputHandling()
 
 void GameScreen::render()
 {
-    while (!isExiting())
+    try
     {
-        switch (_currentState)
+        while (!isExiting())
         {
-        case PLAYING:
-        {
-            _window.clear(sf::Color::Green);
+            switch (_currentState)
+            {
+            case PLAYING:
+            {
+                _window.clear(sf::Color::Green);
 
-            // Test Draw String
-            sf::Font font;
-            font.loadFromFile("/Users/ankithbti/Development/Quand_tu_dors_.otf");
-            sf::Text text;
-            text.setFont(font);
-            text.setString("Testing the screen drawing for Game....");
-            text.setCharacterSize(2.0f);
-            _window.draw(text);
+                // Test Draw String
+                sf::Font font;
+                font.loadFromFile("/Users/ankithbti/Development/Quand_tu_dors_.otf");
+                sf::Text text;
+                text.setFont(font);
+                text.setString("Testing the screen drawing for Game....");
+                text.setCharacterSize(2.0f);
+                _window.draw(text);
 
-            _window.display();
+                // For All Game entities
+                _gameEntityManager.drawAll(_window);
+
+                _window.display();
+            }
+                break;
+            default:
+            {
+                boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+            }
+                break;
+            }
         }
-            break;
-        default:
-        {
-            boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
-        }
-            break;
-        }
+    }
+    catch (const boost::thread_interrupted& err)
+    {
+        // Ignore
+    }
+    catch (...)
+    {
+        // Ignore
     }
     _logger.logMessage("Ending Render Thread....");
 }
